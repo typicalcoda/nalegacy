@@ -22,13 +22,13 @@ Route::group(["middleware" => "guest"], function() {
 
 	Route::get('/login', function(){
 		return view("login");
-	});
+	})->name("login");
 
 	Route::post('/login', function(){
-		$email = request()->email;
+		$username = request()->username;
 		$password = request()->password;
 
-		if(Auth::attempt(["email"=>$email,"password"=>$password]))
+		if(Auth::attempt(["username"=>$username,"password"=>$password]))
 			return redirect("/home");
 
 		return view('login')->with(["error" => "Incorrect credentials"]);
@@ -38,6 +38,13 @@ Route::group(["middleware" => "guest"], function() {
 
 Route::group(["middleware" => "auth"], function() {
 
+	Route::get("/home", function(){
+		return "You're logged in. :)";
+	})->name("home");
 
+	Route::get("/logout", function(){
+		Auth::logout();
+		return redirect("/");
+	});
 
 });
