@@ -39,8 +39,13 @@ Route::group(["middleware" => "guest"], function() {
 Route::group(["middleware" => "auth"], function() {
 
 	Route::get("/home", function(){
-		return "You're logged in. :)";
+		return view("index");
 	})->name("home");
+
+
+	Route::get('/play', function(){
+		return view("play");
+	});
 
 	Route::get("/logout", function(){
 		Auth::logout();
